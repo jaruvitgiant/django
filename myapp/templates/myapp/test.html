@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ส่งคำถามไปยัง Django</title>
+</head>
+<body>
+  <h2>ส่งคำถาม</h2>
+  <form id="questionForm">
+    <label>คำถาม: <input type="text" id="text" required></label><br><br>
+    <label>ตัวเลือก (คั่นด้วย ,): <input type="text" id="choices" required></label><br><br>
+    <button type="submit">ส่งข้อมูล</button>
+  </form>
+
+  <pre id="result"></pre>
+
+  <script>
+    document.getElementById("questionForm").addEventListener("submit", function (event) {
+      event.preventDefault(); // ไม่ให้ reload หน้า
+
+      const text = document.getElementById("text").value;
+      const choicesInput = document.getElementById("choices").value;
+
+      // แปลง choices เป็น array (จากข้อความคั่นด้วย ,)
+      const choices = choicesInput.split(",").map(choice => choice.trim());
+
+      fetch("/quiz/question/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          text: text,
+          choices: choices
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+      })
+      .catch(error => {
+        document.getElementById("result").textContent = "เกิดข้อผิดพลาด: " + error;
+      });
+    });
+  </script>
+</body>
+</html>

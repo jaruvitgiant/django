@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>แบบฟอร์มส่ง JSON</title>
+</head>
+<body>
+  <h2>กรอกคำถาม</h2>
+  <!-- action="/quiz/question/TestPost" -->
+  <form method="post" >
+    {% csrf_token %}
+    
+    <label>ID:</label>
+    <input type="number" name="id" value="9"><br><br>
+    
+    <label>คำถาม (text):</label>
+    <input type="text" name="text"><br><br>
+    
+    <label>ตัวเลือก (choices, คั่นด้วย ,):</label>
+    <input type="text" name="choices" ><br><br>
+    
+    <button type="submit">ส่งข้อมูล</button>
+  </form>
+  <hr>
+
+  {% if result %}
+    <h3>ผลลัพธ์ที่ได้รับ:</h3>
+    <p><strong>ID:</strong> {{ result.id }}</p>
+    <p><strong>คำถาม:</strong> {{ result.text }}</p>
+    <p><strong>ตัวเลือก:</strong></p>
+    <ul>
+      {% for choice in result.choices %}
+        <li>{{ choice }}</li>
+      {% endfor %}
+    </ul>
+  {% elif error %}
+    <p style="color:red;">เกิดข้อผิดพลาด: {{ error }}</p>
+  {% endif %}
+</body>
+</html>
+

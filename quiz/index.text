@@ -1,0 +1,51 @@
+
+##เพิ่มข้อมูล Json
+python manage.py loaddata quizzes-1-68
+
+##ค้นหาคำถามทั้งหมด
+Question.objects.count()
+
+##ค้าหาคำถามที่มีคำว่า AI ในคำถามเอาหมด
+Question.objects.filter(text_icontains ='AI')
+##ค้าหาคำถามที่มีคำว่า AI ในคำถาม
+Question.objects.filter(text__contains="AI")
+
+##ค้นหาคำถามที่เปิดหลังวันที่ 1 กรกฏาคม 2565
+Question.objects.filter(published_date__gt=datetime.datetime(2022, 7, 1, tzinfo=timezone.get_current_timezone()))
+
+##ค้นหาคำถามมที่มี id เป็น 13
+questions = Question.objects.filter(id=13)
+
+##ค้นหาตัวเลือกทั้งหมดของคำถามมที่มี id เป็น 16
+questions = Question.objects.filter(id=13)
+
+##ค้นหาตัวเลือกทั้งหมดของคำถามมที่มี id เป็น 16
+question = Question.objects.get(id=16)
+choices = question.choices.all() 
+print(choices)
+
+##แสดงชุดคำถามตัวเลือกที่คำถามมีคำว่า Tailwind
+questions = Question.objects.filter(text__icontains="Tailwind")
+for q in questions:
+    print(f"Question {q.id}: {q.text}")
+    choices = q.choices.all()  # related_name='choices'
+    for c in choices:
+        print(f"  Choice {c.id}: {c.text} (Correct: {c.correct})")
+    print()
+
+วิธีอัปขึ้น github
+git init
+
+git add .
+
+git commit -m "Initial commit of Django project"
+
+git remote add origin https://github.com/jaruvitgiant/django.git
+
+git branch -M main
+
+git push -u origin main
+
+วิธี รันคำสั่ง git clone
+
+git clone https://github.com/jaruvitgiant/django.git
